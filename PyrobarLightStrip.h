@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include "PyrobarSlaveConstants.h"
+#include "PyrobarSlaveOnlyConstants.h"
 
 class PyrobarLightStrip {
 public:
