@@ -5,7 +5,7 @@
 #include "PololuLedStrip.h"
 
 #define DEBUG_SLAVE
-#define SLAVE1 // if not, Slave is assumed as 0 when compiling slave sketch
+#define SLAVE 0
 
 typedef struct LightZoneInfo {
   uint8_t strip;
