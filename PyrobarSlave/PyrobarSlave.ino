@@ -1,9 +1,9 @@
-//#include <SPI.h>
-//#include <Ethernet.h>
 #include <Wire.h>
 #include "PyrobarSlaveConstants.h"
 #include "PyrobarSlaveOnlyConstants.h"
 #include "PyrobarLightStrip.h"
+
+//#define SLAVE 1
 
 const int lowZone = slaveZoneAddresses[SLAVE].low;
 const int highZone = slaveZoneAddresses[SLAVE].high;
