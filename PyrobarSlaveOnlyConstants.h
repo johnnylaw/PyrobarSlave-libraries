@@ -5,7 +5,6 @@
 #include "PololuLedStrip.h"
 
 #define DEBUG_SLAVE
-#define SLAVE 0
 
 typedef struct LightZoneInfo {
   uint8_t strip;
