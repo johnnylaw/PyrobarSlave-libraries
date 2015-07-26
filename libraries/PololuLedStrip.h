@@ -28,7 +28,7 @@ namespace Pololu
   #define _POLOLU_RGB_COLOR
   typedef struct rgb_color
   {
-    unsigned char blue, red, green;
+    unsigned char red, green, blue;
   } rgb_color;
   #endif
 
