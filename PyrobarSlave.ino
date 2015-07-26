@@ -3,7 +3,7 @@
 #include "PyrobarSlaveOnlyConstants.h"
 #include "PyrobarLightStrip.h"
 
-//#define SLAVE 1
+#define SLAVE 1
 
 const int lowZone = slaveZoneAddresses[SLAVE].low;
 const int highZone = slaveZoneAddresses[SLAVE].high;
