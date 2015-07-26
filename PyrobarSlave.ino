@@ -13,14 +13,34 @@ const int highZone = slaveZoneAddresses[SLAVE].high;
 const int zoneCount = 8;
 const int stripCount = 5;
 rgb_color tempColors[stripCount][100];
-const int stripAddressCounts[stripCount] = {100, 100, 90, 90, 30};
+const int stripAddressCounts[stripCount] = {
+  100, // Crane         (zones 0 - 3)
+  100, // Lounge        (zone 4)
+  90,  // Bar ceiling   (zone 5)
+  90,  // Bar surface   (zone 6)
+  30   // DJ booth      (zone 7)
+};
+const int stripType[stripCount] = {  // use voltage of strip
+  12,       // Crane
+  12,       // Lounge (currently no lounge; will probably end up as 5)
+  5,        // Bar ceiling
+  5,        // Bar surface
+  12        // DJ booth
+}
 
 #elif SLAVE == 1
 
 const int zoneCount = 2;
 const int stripCount = 2;
 rgb_color tempColors[stripCount][350];
-const int stripAddressCounts[stripCount] = {50, 300};
+const int stripAddressCounts[stripCount] = {
+  50,  // Steps                 (zone 8)
+  300  // Undercarriage         (zone 9)
+};
+const int stripType[stripCount] = {
+  12,   // Steps
+  5,    // Undercarriage
+};
 
 #endif
 
@@ -35,14 +55,14 @@ PololuLedStrip<31> strip3;
 PololuLedStrip<29> strip4;
 
 LightZoneInfo lightZonesInfo[zoneCount] = {
-  {0, 0, 18, false},  // Crane ring
-  {0, 18, 27, false},  // Crane top
-  {0, 45, 27, false},  // Crane middle
+  {0, 0, 18, false},    // Crane ring
+  {0, 18, 27, false},   // Crane top
+  {0, 45, 27, false},   // Crane middle
   {0, 72, 27, false},   // Crane base
-  {1, 0, 50, true},    // Lounge
-  {2, 0, 45, true},    // Bar ceiling
-  {3, 0, 45, true},    // Bar surface
-  {4, 0, 15, true},    // DJ booth
+  {1, 0, 50, true},     // Lounge
+  {2, 0, 45, true},     // Bar ceiling
+  {3, 0, 45, true},     // Bar surface
+  {4, 0, 15, true},     // DJ booth
 };
 PololuLedStripBase *ledStrips[stripCount] = {&strip0, &strip1, &strip2, &strip3, &strip4};
 
@@ -85,11 +105,6 @@ PololuLedStripBase *ledStrips[stripCount] = {&strip0, &strip1};
 
 //#endif
 
-float halfLife;
-unsigned long lastLoopTime;
-
-LightMode lightMode = BALL_DRAG;
-
 void setup() {
   Serial.begin(115200);
 
@@ -105,58 +120,28 @@ void setup() {
   Serial.print("Light program packet size: "); Serial.println(lightProgramPacketSize);
 
   delay(2000);
-  lastLoopTime = millis();
 }
 
 void loop() {
-  lastLoopTime = millis();
-  if (lightMode == BALL_DRAG) {
-    float elapsedTime = (millis() - lastLoopTime) / 1000.0;
-    float decayFactor = pow(0.5, elapsedTime / halfLife);
-    for (int stripInd = 0; stripInd < stripCount; stripInd++) {
-//      lightStrips2d[stripInd].update(decayFactor);
-    }
-    writeToStrips();
-  }
-
-  delay(10);
+  writeToStrips();
+  delay(100);
 }
 
 void parseIncoming(int packetSize) {
   Serial.print("Incoming: ");
-  if (packetSize == 7) {   // light ball information (x, y, radius, red, green, blue, halfLifeInt)
-    Serial.println("Light Ball");
-    lightMode = BALL_DRAG;
-    Location location = {Wire.read(), Wire.read()};
-    uint8_t radius = Wire.read();
-    rgb_color color = {Wire.read(), Wire.read(), Wire.read()};
-    halfLife = Wire.read() / 128.0; // highest = 2.0
-    for (int stripInd = 0; stripInd < stripCount; stripInd++) {
-//      lightStrips2d[stripInd].setBall(location, radius, color);
-    }
-  } else if (packetSize == lightProgramPacketSize) {
 #ifdef DEBUG_SLAVE
-    Serial.println("Program");
+  Serial.println("Program");
 #endif
-    lightMode = PROGRAM;
-    for (int zoneIndex = lowZone; zoneIndex <= highZone; zoneIndex++) {
-      // Can't simply do the following because of reordering of colors
-      // rgb_color color = {Wire.read(), Wire.read(), Wire.read()};
-      rgb_color color;
-      color.red = Wire.read();
-      color.green = Wire.read();
-      color.blue = Wire.read();
-      writeEntireZoneBuffer(zoneIndex, color);
-    } 
-
-    writeToStrips();
-  }
-#ifdef DEBUG_SLAVE    
-  else {
-    Serial.print("random packet of ");
-    Serial.println(packetSize);
-  }
-#endif 
+  for (int zoneIndex = lowZone; zoneIndex <= highZone; zoneIndex++) {
+    rgb_color color = { Wire.read(), Wire.read(), Wire.read() };
+    if (stripType[zoneIndex] == 12) {
+      unsigned char temp = color.red;
+      color.red = color.green;
+      color.green = color.blue;
+      color.blue = temp;
+    }
+    writeEntireZoneBuffer(zoneIndex, color);
+  } 
 }
 
 void writeToStrips() {
@@ -181,9 +166,5 @@ void writeEntireZoneBuffer(int zoneIndex, rgb_color color) {
   for (int address = zoneInfo.start; address < zoneInfo.count + zoneInfo.start; address++) {
     tempColors[zoneInfo.strip][address] = color;
   }
-}
-
-void igniteLightProgram() {
-  lightMode = PROGRAM;
 }
 
