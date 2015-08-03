@@ -3,7 +3,7 @@
 #include "PyrobarSlaveOnlyConstants.h"
 #include "PyrobarLightStrip.h"
 
-#define SLAVE 1
+#define SLAVE 0
 
 const int lowZone = slaveZoneAddresses[SLAVE].low;
 const int highZone = slaveZoneAddresses[SLAVE].high;
@@ -26,7 +26,7 @@ const int stripType[stripCount] = {  // use voltage of strip
   5,        // Bar ceiling
   5,        // Bar surface
   12        // DJ booth
-}
+};
 
 #elif SLAVE == 1
 
@@ -97,14 +97,12 @@ void setup() {
 }
 
 void loop() {
-  writeToStrips();
   delay(100);
 }
 
 void parseIncoming(int packetSize) {
-  Serial.print("Incoming: ");
 #ifdef DEBUG_SLAVE
-  Serial.println("Program");
+  Serial.print("Incoming: ");
 #endif
   for (int zoneIndex = lowZone; zoneIndex <= highZone; zoneIndex++) {
     rgb_color color = { Wire.read(), Wire.read(), Wire.read() };
@@ -116,6 +114,7 @@ void parseIncoming(int packetSize) {
     }
     writeEntireZoneBuffer(zoneIndex, color);
   } 
+  writeToStrips();
 }
 
 void writeToStrips() {
