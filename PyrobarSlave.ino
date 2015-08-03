@@ -12,12 +12,12 @@ const int highZone = slaveZoneAddresses[SLAVE].high;
 
 const int zoneCount = 8;
 const int stripCount = 5;
-rgb_color tempColors[stripCount][100];
+rgb_color tempColors[stripCount][300];
 const int stripAddressCounts[stripCount] = {
-  100, // Crane         (zones 0 - 3)
+  104, // Crane         (zones 0 - 3)
   100, // Lounge        (zone 4)
-  90,  // Bar ceiling   (zone 5)
-  90,  // Bar surface   (zone 6)
+  300,  // Bar ceiling   (zone 5)
+  300,  // Bar surface   (zone 6)
   30   // DJ booth      (zone 7)
 };
 const int stripType[stripCount] = {  // use voltage of strip
@@ -57,12 +57,12 @@ PololuLedStrip<29> strip4;
 LightZoneInfo lightZonesInfo[zoneCount] = {
   {0, 0, 18, false},    // Crane ring
   {0, 18, 27, false},   // Crane top
-  {0, 45, 27, false},   // Crane middle
-  {0, 72, 27, false},   // Crane base
+  {0, 45, 29, false},   // Crane middle
+  {0, 74, 29, false},   // Crane base
   {1, 0, 50, true},     // Lounge
-  {2, 0, 45, true},     // Bar ceiling
-  {3, 0, 45, true},     // Bar surface
-  {4, 0, 15, true},     // DJ booth
+  {2, 0, 150, true},     // Bar ceiling
+  {3, 0, 150, true},     // Bar surface
+  {4, 0, 19, true},     // DJ booth
 };
 PololuLedStripBase *ledStrips[stripCount] = {&strip0, &strip1, &strip2, &strip3, &strip4};
 
@@ -105,12 +105,16 @@ void parseIncoming(int packetSize) {
   Serial.print("Incoming: ");
 #endif
   for (int zoneIndex = lowZone; zoneIndex <= highZone; zoneIndex++) {
-    rgb_color color = { Wire.read(), Wire.read(), Wire.read() };
-    if (stripType[zoneIndex] == 12) {
-      unsigned char temp = color.red;
-      color.red = color.green;
-      color.green = color.blue;
-      color.blue = temp;
+    rgb_color color;
+    LightZoneInfo info = lightZonesInfo[zoneIndex];
+    if (stripType[info.strip] == 12) {
+      color.green = Wire.read();
+      color.blue = Wire.read();
+      color.red = Wire.read();
+    } else {
+      color.red = Wire.read();
+      color.green = Wire.read();
+      color.blue = Wire.read();
     }
     writeEntireZoneBuffer(zoneIndex, color);
   } 
@@ -136,7 +140,7 @@ void writeEntireZoneBuffer(int zoneIndex, rgb_color color) {
 #endif
   LightZoneInfo zoneInfo = lightZonesInfo[zoneIndex];
   int multiplier = zoneInfo.isSymmetrical ? 2 : 1;
-  for (int address = zoneInfo.start; address < zoneInfo.count + zoneInfo.start; address++) {
+  for (int address = zoneInfo.start; address < zoneInfo.count * multiplier + zoneInfo.start; address++) {
     tempColors[zoneInfo.strip][address] = color;
   }
 }
