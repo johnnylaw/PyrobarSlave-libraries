@@ -4,7 +4,7 @@
 #include <math.h>
 #include "PololuLedStrip.h"
 
-#define DEBUG_SLAVE
+// #define DEBUG_SLAVE
 
 typedef struct LightZoneInfo {
   uint8_t strip;

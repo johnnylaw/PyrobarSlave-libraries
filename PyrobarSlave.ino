@@ -79,32 +79,6 @@ PololuLedStripBase *ledStrips[stripCount] = {&strip0, &strip1};
 
 #endif
 
-//#if SLAVE == 0
-
-//Pixel pixels0[100] = {{1000, 500}, {999, 499}}; // Crane and ring
-//Pixel pixels1[50] =  {{1000, 500}}; // Lounge
-//Pixel pixels2[45] =  {{1000, 500}}; // Bar ceiling
-//Pixel pixels3[45] =  {{1000, 500}}; // Bar surface
-//Pixel pixels4[15] =  {{1000, 500}}; // DJ booth
-//PyrobarLightStrip lightStrips2d[ledStripCount] = {
-//  {pixels0, 100, false, 0, tempColors[0]},
-//  {pixels1, 50, true, 0, tempColors[1]},
-//  {pixels2, 45, true, 0, tempColors[2]},
-//  {pixels3, 45, true, 0, tempColors[3]},
-//  {pixels4, 15, true, 0, tempColors[4]},
-//};
-
-//#elif SLAVE == 1
-
-//Pixel pixels0[50] = {{1000, 500}, {999, 499}}; // Steps
-//Pixel pixels1[175] =  {{1000, 500}}; // Undercarriage
-//PyrobarLightStrip lightStrips2d[ledStripCount] = {
-//  {pixels0, 50, true, 100, tempColors[0]},
-//  {pixels1, 175, true, 0, tempColors[1]}
-//};
-
-//#endif
-
 void setup() {
   Serial.begin(115200);
 
