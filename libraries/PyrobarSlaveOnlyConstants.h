@@ -13,6 +13,7 @@ typedef struct LightZoneInfo {
   boolean isSymmetrical;
 } LightZoneInfo;
 
+
 typedef struct Location {
   uint8_t x, y;
 } Location;
