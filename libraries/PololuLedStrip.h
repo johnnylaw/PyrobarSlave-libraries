@@ -29,6 +29,15 @@ namespace Pololu
   typedef struct rgb_color
   {
     unsigned char red, green, blue;
+    rgb_color(unsigned char c1, unsigned char c2, unsigned char c3, int voltage) {
+      red = c1;
+      if (voltage == 12) {
+        green = c3; blue = c2;
+      } else {
+        green = c2; blue = c3;
+      }
+    };
+    rgb_color() : red(0), green(0), blue(0) {}
   } rgb_color;
   #endif
 

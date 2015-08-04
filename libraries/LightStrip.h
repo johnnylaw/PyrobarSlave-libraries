@@ -6,4 +6,5 @@
 typedef struct LightStrip {
   PololuLedStripBase *pololuStrip;
   int voltage;
+  int count;
 } LightStrip;
