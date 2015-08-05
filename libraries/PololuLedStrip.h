@@ -31,7 +31,6 @@ namespace Pololu
     unsigned char red, green, blue;
     rgb_color(unsigned char c1, unsigned char c2, unsigned char c3, int voltage) {
       if (voltage == 12) {
-        Serial.println("12v");
         green = c1; blue = c2; red = c3;
       } else {
         red = c1; green = c2; blue = c3;
