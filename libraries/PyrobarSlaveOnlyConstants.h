@@ -6,21 +6,4 @@
 
 // #define DEBUG_SLAVE
 
-typedef struct LightZoneInfo {
-  uint8_t strip;
-  uint16_t start,        // first index
-           count;        // number of distinct addresses
-  boolean isSymmetrical;
-} LightZoneInfo;
-
-
-typedef struct Location {
-  uint8_t x, y;
-} Location;
-
-typedef struct Pixel {
-  Location location;
-  rgb_color lastColor;
-} Pixel;
-
 #endif

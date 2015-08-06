@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "RGBColor.h"
 
 #if defined(__AVR__)
 #include <avr/io.h>
@@ -24,33 +25,17 @@
 
 namespace Pololu
 {
-  #ifndef _POLOLU_RGB_COLOR
-  #define _POLOLU_RGB_COLOR
-  typedef struct rgb_color
-  {
-    unsigned char red, green, blue;
-    rgb_color(unsigned char c1, unsigned char c2, unsigned char c3, int voltage) {
-      if (voltage == 12) {
-        green = c1; blue = c2; red = c3;
-      } else {
-        red = c1; green = c2; blue = c3;
-      }
-    };
-    rgb_color() : red(0), green(0), blue(0) {}
-  } rgb_color;
-  #endif
-
   class PololuLedStripBase
   {
     public:
     static bool interruptFriendly;
-    void virtual write(rgb_color *, unsigned int count) = 0;
+    void virtual write(RGBColor *, unsigned int count) = 0;
   };
 
   template<unsigned char pin> class PololuLedStrip : public PololuLedStripBase
   {
     public:
-    void virtual write(rgb_color *, unsigned int count);
+    void virtual write(RGBColor *, unsigned int count);
   };
 
   #if defined(__AVR_ATmega32U4__)
@@ -228,7 +213,7 @@ namespace Pololu
 
   #endif
 
-  template<unsigned char pin> void __attribute__((aligned(16))) PololuLedStrip<pin>::write(rgb_color * colors, unsigned int count)
+  template<unsigned char pin> void __attribute__((aligned(16))) PololuLedStrip<pin>::write(RGBColor * colors, unsigned int count)
   {
     #if defined(__AVR__)
     digitalWrite(pin, LOW);
