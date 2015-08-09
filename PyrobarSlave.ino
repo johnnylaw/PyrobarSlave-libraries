@@ -11,7 +11,7 @@
 
 static ZoneStripMappingSet zoneStripMappingSets[7]; // std::vector
 const int zoneCount = 7;
-const int stripCount = 5;
+const int stripCount = 6;
 RGBColor tempColors[stripCount][300]; // Second size must be that of strip with highest number of bulbs
 
 PololuLedStrip<37> strip0;
@@ -19,6 +19,7 @@ PololuLedStrip<35> strip1;
 PololuLedStrip<33> strip2;
 PololuLedStrip<31> strip3;
 PololuLedStrip<29> strip4;
+PololuLedStrip<27> strip5;
 
 // LightStrip is struct with
 //   - PololuLedStrip pointer
@@ -37,6 +38,7 @@ LightStrip lightStrips[] = {
   {&strip2, {5, 300, 400}},   // Bar ceiling (1 zone)
   {&strip3, {5, 300, 400}},   // Bar surface (1 zone)
   {&strip4, {12, 19}},        // DJ booth (same zone as bar surface)
+  {&strip5, {5, 45}},         // Front pillars
 };
 
 #elif SLAVE == 1
@@ -44,7 +46,7 @@ LightStrip lightStrips[] = {
 static ZoneStripMappingSet zoneStripMappingSets[2];
 const int zoneCount = 2;
 const int stripCount = 2;
-rgb_color tempColors[stripCount][350];
+RGBColor tempColors[stripCount][1050];
 
 PololuLedStrip<37> strip0;
 PololuLedStrip<35> strip1;
@@ -75,6 +77,9 @@ zoneStripMappingSets[5].push(ZoneStripMapping{2, 170, 130});  // Bar ceiling
 zoneStripMappingSets[6].push(ZoneStripMapping{3, 0, 130});    // Bar surface (130 - 169 black)
 zoneStripMappingSets[6].push(ZoneStripMapping{3, 170, 130});  // Bar surface ...
 zoneStripMappingSets[6].push(ZoneStripMapping{4, 0, 19});     //   ... and DJ booth
+zoneStripMappingSets[4].push(ZoneStripMapping{5, 30, 12});    // Pillar high
+zoneStripMappingSets[5].push(ZoneStripMapping{5, 15, 12});    // Pillar mid
+zoneStripMappingSets[6].push(ZoneStripMapping{5, 0, 12});     // Pillar low
 
 #elif SLAVE == 1
 
