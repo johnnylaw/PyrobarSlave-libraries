@@ -1,4 +1,5 @@
 #include <Wire.h>
+#include <Vector.h>
 #include "PyrobarSlaveConstants.h"
 #include "PyrobarSlaveOnlyConstants.h"
 #include "ZoneMapping.h"
