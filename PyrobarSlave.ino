@@ -12,11 +12,11 @@
 
 static ZoneStripMappingSet zoneStripMappingSets[9]; // std::vector
 const int zoneCount = 9;
-const int stripCount = 5;
+const int stripCount = 6;
 RGBColor tempColors[stripCount][300]; // Second size must be that of strip with highest number of bulbs
 
 PololuLedStrip<37> strip0;
-//            <35> strip1;     If there's a need for another strip, this pin is wired up.
+PololuLedStrip<35> strip1;     // If there's a need for another strip, this pin is wired up.
 PololuLedStrip<33> strip2;
 PololuLedStrip<31> strip3;
 PololuLedStrip<29> strip4;
@@ -35,6 +35,7 @@ PololuLedStrip<27> strip5;
 // None of the strip bulb counts should be higher than secondary size of tempColors array
 LightStrip lightStrips[] = {
   {&strip0, {12, 104}},       // Crane (4 zones)
+  {&strip1, {12, 0}},
   {&strip2, {5, 300, 400}},   // Bar ceiling (1 zone)
   {&strip3, {5, 300, 400}},   // Bar surface (1 zone)
   {&strip4, {12, 19}},        // DJ booth (same zone as bar surface)
@@ -68,17 +69,17 @@ void createZoneMappings(void) {
 // Format:
 //   zoneStripMappingSets[zone number].push(ZoneStripMapping{strip, starting bulb, bulb count})
 zoneStripMappingSets[0].push(ZoneStripMapping{0, 0, 16});     // Crane ring
-zoneStripMappingSets[1].push(ZoneStripMapping{0, 19, 26});    // Crane top (16 - 19 black)
-zoneStripMappingSets[2].push(ZoneStripMapping{0, 45, 29});    // Crane middle
-zoneStripMappingSets[3].push(ZoneStripMapping{0, 74, 29});    // Crane bottom
-zoneStripMappingSets[4].push(ZoneStripMapping{1, 0, 130});    // Bar ceiling (130 - 169 black)
-zoneStripMappingSets[4].push(ZoneStripMapping{1, 170, 130});  // Bar ceiling
-zoneStripMappingSets[5].push(ZoneStripMapping{2, 0, 130});    // Bar surface (130 - 169 black)
-zoneStripMappingSets[5].push(ZoneStripMapping{2, 170, 130});  // Bar surface ...
-zoneStripMappingSets[5].push(ZoneStripMapping{3, 0, 19});     //   ... and DJ booth
-zoneStripMappingSets[6].push(ZoneStripMapping{4, 30, 15});    // Pillar high
-zoneStripMappingSets[7].push(ZoneStripMapping{4, 15, 15});    // Pillar mid
-zoneStripMappingSets[8].push(ZoneStripMapping{4, 0, 15});     // Pillar low
+zoneStripMappingSets[1].push(ZoneStripMapping{0, 26, 22});    // Crane top (16 - 19 black)
+zoneStripMappingSets[2].push(ZoneStripMapping{0, 48, 27});    // Crane middle
+zoneStripMappingSets[3].push(ZoneStripMapping{0, 75, 28});    // Crane bottom
+zoneStripMappingSets[4].push(ZoneStripMapping{2, 0, 130});    // Bar ceiling (130 - 169 black)
+zoneStripMappingSets[4].push(ZoneStripMapping{2, 170, 130});  // Bar ceiling
+zoneStripMappingSets[5].push(ZoneStripMapping{3, 0, 130});    // Bar surface (130 - 169 black)
+zoneStripMappingSets[5].push(ZoneStripMapping{3, 170, 130});  // Bar surface ...
+zoneStripMappingSets[5].push(ZoneStripMapping{4, 0, 19});     //   ... and DJ booth
+zoneStripMappingSets[6].push(ZoneStripMapping{5, 30, 15});    // Pillar high
+zoneStripMappingSets[7].push(ZoneStripMapping{5, 15, 15});    // Pillar mid
+zoneStripMappingSets[8].push(ZoneStripMapping{5, 0, 15});     // Pillar low
 
 #elif SLAVE == 1
 
