@@ -71,14 +71,14 @@ zoneStripMappingSets[0].push(ZoneStripMapping{0, 0, 16});     // Crane ring
 zoneStripMappingSets[1].push(ZoneStripMapping{0, 19, 26});    // Crane top (16 - 19 black)
 zoneStripMappingSets[2].push(ZoneStripMapping{0, 45, 29});    // Crane middle
 zoneStripMappingSets[3].push(ZoneStripMapping{0, 74, 29});    // Crane bottom
-zoneStripMappingSets[4].push(ZoneStripMapping{2, 0, 130});    // Bar ceiling (130 - 169 black)
-zoneStripMappingSets[4].push(ZoneStripMapping{2, 170, 130});  // Bar ceiling
-zoneStripMappingSets[5].push(ZoneStripMapping{3, 0, 130});    // Bar surface (130 - 169 black)
-zoneStripMappingSets[5].push(ZoneStripMapping{3, 170, 130});  // Bar surface ...
-zoneStripMappingSets[5].push(ZoneStripMapping{4, 0, 19});     //   ... and DJ booth
-zoneStripMappingSets[6].push(ZoneStripMapping{5, 30, 15});    // Pillar high
-zoneStripMappingSets[7].push(ZoneStripMapping{5, 15, 15});    // Pillar mid
-zoneStripMappingSets[8].push(ZoneStripMapping{5, 0, 15});     // Pillar low
+zoneStripMappingSets[4].push(ZoneStripMapping{1, 0, 130});    // Bar ceiling (130 - 169 black)
+zoneStripMappingSets[4].push(ZoneStripMapping{1, 170, 130});  // Bar ceiling
+zoneStripMappingSets[5].push(ZoneStripMapping{2, 0, 130});    // Bar surface (130 - 169 black)
+zoneStripMappingSets[5].push(ZoneStripMapping{2, 170, 130});  // Bar surface ...
+zoneStripMappingSets[5].push(ZoneStripMapping{3, 0, 19});     //   ... and DJ booth
+zoneStripMappingSets[6].push(ZoneStripMapping{4, 30, 15});    // Pillar high
+zoneStripMappingSets[7].push(ZoneStripMapping{4, 15, 15});    // Pillar mid
+zoneStripMappingSets[8].push(ZoneStripMapping{4, 0, 15});     // Pillar low
 
 #elif SLAVE == 1
 
